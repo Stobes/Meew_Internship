@@ -1,0 +1,124 @@
+// Pseudocode for login as user/admin. //
+// pre:  user has been created in database by admin.
+// post: user/admin is logged in to application.
+
+GET loginID
+GET password
+
+admin_username = INPUT("admin username")
+email = INPUT("users personal email")
+password = INPUT("users password")
+
+IF( loginId != email OR admin_username && password != HASHED(password) ) THEN
+    EXCEPTION(print("email or password has been entered incorrectly"))
+END
+ELSE
+    login successful
+    create a new Token
+    redirect to relevant screen
+END
+
+-----------------------------------------------------------------------------
+
+// Pseudocode for adding users to the database as admin. //
+// pre:  admin login status is active.
+// post: a new user entry has been added to the database.
+
+name = INPUT("users full name")
+apartment = INPUT("apartment number")
+email = INPUT("user email")
+password = INPUT("auto generated")
+plate number = INPUT("Users plate")
+
+
+
+IF( any INPUT == null ) THEN
+    EXCEPTION("missing input fields")
+END
+ELSEIF( GET email EXISTS == true )THEN
+    EXCEPTION(print("email already exists in database"))
+ELSE
+    POST INPUT data to database
+    send login info to user (request user password change)
+END
+
+
+
+-----------------------------------------------------------------------------------
+
+// Pseudocode for register a guest plate. //
+// pre:  user login status is active.
+// post: if the guest plate is already in the database, then a ticket will be added to existing entry.
+         otherwise a new plate entry will be added to the database along with a ticket.
+
+plate = INPUT("plate number")
+GET userId
+
+IF( plate == null ) THEN
+    EXCEPTION(print("no plate entered"))
+END
+ELSEIF( GET plate EXISTS == true ) THEN
+    SET to_date
+END
+ELSE
+    POST plate to the database with input data and userId
+    SET to_date
+END
+
+-----------------------------------------------------------------------------------
+
+// Pseudocode for an admin to delete a registered user. //
+// pre:  admin login status is active.
+// post: data for a specific user is removed from database.
+
+REQUEST delete user from database
+    IF( GET userId EXISTS != true ) THEN
+        EXCEPTION(print("database does not contain specific user"))
+    END
+    ELSE
+        admin is asked to confirm deletion of user.
+        IF( confirmed ) THEN
+            DELETE user by userId.
+        END
+    END
+
+-----------------------------------------------------------------------------------
+
+// Pseudocode for scanning plates and checking for validated parking. //
+// pre:  parking attendant has access to the application.
+// post: parking attendant is able to determine whether a car has valid parking or not.
+
+plate = INPUT("licence plate")
+
+IF( plate EXISTS == true ) THEN
+    IF( plate.to_Date > current_Date ) THEN
+        print("car validated")
+END
+ELSE
+    print("car is not validated")
+END
+
+-----------------------------------------------------------------------------------
+
+// Pseudocode for getting all plate registered by the current user. //
+// pre:  user login status is active.
+// post: user is able to see all entries made with their userId
+
+IF( no plates contains the current userId ) THEN
+    EXCEPTION(print("database does not contain plates registered by current user."))
+END
+ELSE
+    Show every plate entry which contains current userId.
+END
+
+-----------------------------------------------------------------------------------
+
+// Pseudocode for updating existing plate registrations. //
+// pre:  user login status is active and have previously registered license plates.
+// post: user is able to extend or add a valid parking status.
+
+parkingId = GET(parking registration id)
+
+UPDATE expiration date and SET to 24 hours from current date.
+
+-----------------------------------------------------------------------------------
